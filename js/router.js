@@ -267,31 +267,137 @@ const Router = {
     },
     
     renderCourseLessons(course) {
-        const lessons = window[course.lessonsData] || [];
-        return lessons.map((lesson, index) => `
-            <div class="card card-hover" onclick="Router.navigate('/lesson/${course.id}/${lesson.id}')">
-                <div class="flex items-center gap-md">
-                    <div style="width: 40px; height: 40px; background: var(--gradient-primary); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
-                        ${index + 1}
+        console.log('Rendering lessons for course:', course.id);
+        console.log('Looking for lessons data:', course.lessonsData);
+        
+        if (!course.lessonsData) {
+            console.error('Course missing lessonsData property:', course);
+            return '<div class="card"><div class="empty-state-description">Course data is incomplete. Please contact support.</div></div>';
+        }
+        
+        let lessons = [];
+        try {
+            const fromWindow = window[course.lessonsData];
+            if (Array.isArray(fromWindow)) {
+                lessons = fromWindow;
+            } else {
+                // Also try resolving global lexical bindings created with const/let
+                let evaluated;
+                try {
+                    evaluated = eval(course.lessonsData);
+                } catch (err) {
+                    evaluated = undefined;
+                }
+                if (Array.isArray(evaluated)) lessons = evaluated;
+            }
+        } catch (e) {
+            console.error('Error resolving lessons data for', course.lessonsData, e);
+            lessons = [];
+        }
+        console.log('Found lessons:', lessons.length, 'for course:', course.id);
+        console.log('Lessons data:', lessons);
+        
+        if (!lessons || lessons.length === 0) {
+            return `
+                <div class="card">
+                    <div class="empty-state">
+                        <div class="empty-state-title">No Lessons Available</div>
+                        <div class="empty-state-description">This course doesn't have any lessons yet. Check back soon!</div>
+                        <button class="btn btn-primary mt-md" onclick="Router.navigate('/courses')">Browse Other Courses</button>
                     </div>
-                    <div class="flex-1">
-                        <h3 class="font-semibold">${lesson.title}</h3>
-                        <p class="text-sm text-secondary">${lesson.duration || '15 min'}</p>
-                    </div>
-                    ${Progress.isLessonCompleted(course.id, lesson.id) ? '<span class="badge badge-success">✓ Completed</span>' : ''}
                 </div>
-            </div>
-        `).join('');
+            `;
+        }
+        
+        return lessons.map((lesson, index) => {
+            console.log('Rendering lesson:', lesson.id, lesson.title);
+            return `
+                <div class="card card-hover" onclick="Router.navigate('/lesson/${course.id}/${lesson.id}')">
+                    <div class="flex items-center gap-md">
+                        <div style="width: 40px; height: 40px; background: var(--gradient-primary); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            ${index + 1}
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold">${lesson.title || 'Untitled Lesson'}</h3>
+                            <p class="text-sm text-secondary">${lesson.duration || '15 min'}</p>
+                        </div>
+                        ${Progress.isLessonCompleted(course.id, lesson.id) ? '<span class="badge badge-success">✓ Completed</span>' : ''}
+                    </div>
+                </div>
+            `;
+        }).join('');
     },
     
     renderLesson(courseId, lessonId) {
         const container = this.getContainer();
+        const course = CoursesData.find(c => c.id === courseId);
+        if (!course) return this.render404();
+
+        // Resolve lessons array (supports const-declared globals)
+        let lessons = [];
+        try {
+            const fromWindow = window[course.lessonsData];
+            if (Array.isArray(fromWindow)) {
+                lessons = fromWindow;
+            } else {
+                let evaluated;
+                try {
+                    evaluated = eval(course.lessonsData);
+                } catch (err) {
+                    evaluated = undefined;
+                }
+                if (Array.isArray(evaluated)) lessons = evaluated;
+            }
+        } catch (e) {
+            console.error('Error resolving lessons data for', course.lessonsData, e);
+        }
+
+        const lesson = lessons.find(l => String(l.id) === String(lessonId));
+        if (!lesson) {
+            container.innerHTML = `
+                <div class="animate-fade-in">
+                    <div class="breadcrumb">
+                        <span class="breadcrumb-item"><a href="#/courses">Courses</a></span>
+                        <span class="breadcrumb-separator">/</span>
+                        <span class="breadcrumb-item"><a href="#/course/${course.id}">${course.title}</a></span>
+                        <span class="breadcrumb-separator">/</span>
+                        <span class="breadcrumb-item">Lesson not found</span>
+                    </div>
+                    <div class="card">
+                        <div class="empty-state">
+                            <div class="empty-state-title">Lesson Not Found</div>
+                            <div class="empty-state-description">We couldn't find this lesson in ${course.title}.</div>
+                            <button class="btn btn-primary mt-md" onclick="Router.navigate('/course/${course.id}')">Back to Course</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
         container.innerHTML = `
             <div class="animate-fade-in">
+                <div class="breadcrumb">
+                    <span class="breadcrumb-item"><a href="#/courses">Courses</a></span>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-item"><a href="#/course/${course.id}">${course.title}</a></span>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-item">${lesson.title}</span>
+                </div>
+
                 <div class="lesson-container">
-                    <h1>Lesson: ${lessonId}</h1>
-                    <p>Course: ${courseId}</p>
-                    <button class="btn btn-primary" onclick="Progress.completeLesson('${courseId}', '${lessonId}'); UI.showToast('Lesson completed! +50 XP', 'success')">Mark Complete</button>
+                    <h1 class="section-title">${lesson.title}</h1>
+                    <div class="text-sm text-secondary mb-md">${course.title} • ${lesson.duration || '15 min'}</div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            ${lesson.content || '<p>No content available for this lesson.</p>'}
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary" onclick="Progress.completeLesson('${course.id}', '${lesson.id}'); UI.showToast('Lesson completed! +50 XP', 'success')">Mark Complete</button>
+                            <button class="btn" onclick="Router.navigate('/course/${course.id}')">Back to Course</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
