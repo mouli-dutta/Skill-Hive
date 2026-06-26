@@ -1,4 +1,4 @@
-# Learn AI - Modern AI & Python Learning Platform
+# SkillHive - Modern AI & Python Learning Platform
 
 A beautiful, gamified learning platform for mastering Python, AI, Machine Learning, and Deep Learning. Built with pure HTML, CSS, and vanilla JavaScript.
 
@@ -59,7 +59,7 @@ No installation required! Simply:
 git clone <repository-url>
 
 # Navigate to the directory
-cd "Learn AI"
+cd "Skill Hive"
 
 # Open in browser (or just double-click index.html)
 open index.html
@@ -76,7 +76,7 @@ Works best on modern browsers:
 ## 📁 Project Structure
 
 ```
-Learn AI/
+Skill Hive/
 ├── index.html              # Main entry point
 ├── README.md              # This file
 │
