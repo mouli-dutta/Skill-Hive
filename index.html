@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Modern AI and Python learning platform with gamification">
+    <meta name="theme-color" content="#1a1f36">
+    <title>SkillHive - Master Python, AI, and Machine Learning</title>
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/typography.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <div id="loading-screen" class="loading-screen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <h2>SkillHive</h2>
+                <p>Loading your learning journey...</p>
+            </div>
+        </div>
+
+        <nav id="top-nav" class="top-nav hidden">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <button id="sidebar-toggle" class="icon-button" aria-label="Toggle sidebar">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="logo">
+                        <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
+                            <circle cx="20" cy="20" r="18" stroke="url(#logo-gradient)" stroke-width="2"/>
+                            <path d="M12 20 L18 26 L28 14" stroke="url(#logo-gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <defs>
+                                <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#6366f1"/>
+                                    <stop offset="100%" style="stop-color:#8b5cf6"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="logo-text">SkillHive</span>
+                    </div>
+                </div>
+                
+                <div class="nav-center">
+                    <button id="search-trigger" class="search-trigger">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <span>Search lessons, courses...</span>
+                        <kbd class="kbd">Ctrl+K</kbd>
+                    </button>
+                </div>
+                
+                <div class="nav-right">
+                    <button id="theme-toggle" class="icon-button" aria-label="Toggle theme">
+                        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg class="icon icon-moon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                    
+                    <button id="notifications-button" class="icon-button" aria-label="Notifications">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="notification-badge hidden">0</span>
+                    </button>
+                    
+                    <button id="profile-button" class="profile-button">
+                        <div class="profile-avatar">
+                            <span id="profile-avatar-text">U</span>
+                        </div>
+                        <svg class="icon icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <aside id="sidebar" class="sidebar hidden">
+            <div class="sidebar-content">
+                <nav class="sidebar-nav">
+                    <a href="#/dashboard" class="nav-item active" data-route="dashboard">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                    
+                    <a href="#/courses" class="nav-item" data-route="courses">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        </svg>
+                        <span>Courses</span>
+                    </a>
+                    
+                    <a href="#/projects" class="nav-item" data-route="projects">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        <span>Projects</span>
+                    </a>
+                    
+                    <a href="#/playground" class="nav-item" data-route="playground">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                        <span>Playground</span>
+                    </a>
+                    
+                    <a href="#/achievements" class="nav-item" data-route="achievements">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="8" r="7"></circle>
+                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                        </svg>
+                        <span>Achievements</span>
+                    </a>
+                    
+                    <a href="#/flashcards" class="nav-item" data-route="flashcards">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                            <polyline points="17 2 12 7 7 2"></polyline>
+                        </svg>
+                        <span>Flashcards</span>
+                    </a>
+                    
+                    <a href="#/notes" class="nav-item" data-route="notes">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        <span>Notes</span>
+                    </a>
+                    
+                    <a href="#/statistics" class="nav-item" data-route="statistics">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span>Statistics</span>
+                    </a>
+                    
+                    <a href="#/settings" class="nav-item" data-route="settings">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M12 1v6m0 6v6m9-9h-6m-6 0H3"></path>
+                        </svg>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+                
+                <div class="sidebar-footer">
+                    <div class="streak-widget">
+                        <div class="streak-flame">🔥</div>
+                        <div class="streak-info">
+                            <div class="streak-number" id="sidebar-streak">0</div>
+                            <div class="streak-label">Day Streak</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main id="main-content" class="main-content hidden">
+            <div id="page-container" class="page-container"></div>
+        </main>
+
+        <div id="modal-container"></div>
+        <div id="toast-container" class="toast-container"></div>
+        <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
+    </div>
+
+    <script src="data/courses-structure.js"></script>
+    <script src="data/achievements-data.js"></script>
+    <script src="data/quizzes.js"></script>
+    <script src="data/flashcards-data.js"></script>
+    <script src="data/projects.js"></script>
+    <script src="data/glossary.js"></script>
+    <script src="data/lessons/python-basics.js"></script>
+    <script src="data/lessons/python-intermediate.js"></script>
+    <script src="data/lessons/python-advanced.js"></script>
+    <script src="data/lessons/data-structures.js"></script>
+    <script src="data/lessons/numpy-pandas.js"></script>
+    <script src="data/lessons/ml-basics.js"></script>
+    <script src="data/lessons/deep-learning.js"></script>
+    <script src="data/lessons/nlp.js"></script>
+    <script src="data/lessons/transformers.js"></script>
+    <script src="data/lessons/llms.js"></script>
+    <script src="data/lessons/prompt-engineering.js"></script>
+    <script src="data/lessons/rag.js"></script>
+    <script src="data/lessons/agents.js"></script>
+    <script src="data/lessons/mlops.js"></script>
+    
+    <script src="js/storage.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/router.js"></script>
+    <script src="js/xp.js"></script>
+    <script src="js/streak.js"></script>
+    <script src="js/achievements.js"></script>
+    <script src="js/gamification.js"></script>
+    <script src="js/courses.js"></script>
+    <script src="js/lesson-renderer.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/flashcards.js"></script>
+    <script src="js/playground.js"></script>
+    <script src="js/visualizations.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/notes.js"></script>
+    <script src="js/progress.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/animations-controller.js"></script>
+    <script src="js/accessibility.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
