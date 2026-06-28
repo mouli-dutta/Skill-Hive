@@ -533,3 +533,53 @@ ol {
         right: var(--spacing-md);
     }
 }
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-lg) 0;
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+table th,
+table td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+table th {
+    background: var(--color-bg-secondary);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+table td {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+
+table tr:hover {
+    background: var(--color-bg-secondary);
+    transition: background var(--transition-fast);
+}
+
+/* Striped tables */
+table.table-striped tbody tr:nth-child(even) {
+    background: var(--color-bg-secondary);
+}
+
+table.table-striped tbody tr:hover {
+    background: var(--color-bg-tertiary);
+}

@@ -36,6 +36,11 @@ const Router = {
         const handler = this.routes[path];
         if (handler) {
             handler(...params);
+            // Scroll to top only for lesson pages, not for course pages
+            // This preserves the user's position in the lesson list
+            if (path === 'lesson') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         } else {
             this.render404();
         }
@@ -156,10 +161,36 @@ const Router = {
             `;
         }
         
+        // Get the actual lesson data
+        const course = CoursesData.find(c => c.id === lastLesson.courseId);
+        if (!course) return '';
+        
+        // Resolve lessons array
+        let lessons = [];
+        try {
+            const fromWindow = window[course.lessonsData];
+            if (Array.isArray(fromWindow)) {
+                lessons = fromWindow;
+            } else {
+                let evaluated;
+                try {
+                    evaluated = eval(course.lessonsData);
+                } catch (err) {
+                    evaluated = undefined;
+                }
+                if (Array.isArray(evaluated)) lessons = evaluated;
+            }
+        } catch (e) {
+            console.error('Error resolving lessons for continue learning:', e);
+        }
+        
+        const lesson = lessons.find(l => String(l.id) === String(lastLesson.lessonId));
+        const lessonTitle = lesson ? lesson.title : `Lesson ${lastLesson.lessonId}`;
+        
         return `
-            <div class="card card-hover" onclick="Router.navigate('/lesson/${lastLesson.courseId}/${lastLesson.id}')">
+            <div class="card card-hover" onclick="Router.navigate('/lesson/${lastLesson.courseId}/${lastLesson.lessonId}')">
                 <div class="badge badge-primary mb-md">Continue</div>
-                <h3 class="card-title">${lastLesson.title}</h3>
+                <h3 class="card-title">${lessonTitle}</h3>
                 <p class="card-description">${lastLesson.course}</p>
                 <div class="progress-bar mt-md">
                     <div class="progress-fill" style="width: ${lastLesson.progress}%"></div>

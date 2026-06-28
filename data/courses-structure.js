@@ -25,8 +25,8 @@ const CoursesData = [
         description: 'Master metaclasses, async programming, and performance optimization',
         icon: '⚡',
         difficulty: 'Advanced',
-        duration: '6 hours',
-        lessons: 15,
+        duration: '5 hours',
+        lessons: 10,
         lessonsData: 'PythonAdvancedLessons'
     },
     {
