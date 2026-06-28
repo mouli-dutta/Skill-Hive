@@ -110,6 +110,19 @@ const Router = {
                         </div>
                         <div class="text-sm text-secondary">${todayProgress.completed} lessons completed</div>
                     </div>
+                    
+                    <div class="card">
+                        <div class="flex items-center gap-md mb-md">
+                            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                                👥
+                            </div>
+                            <div>
+                                <div class="text-xs text-secondary">Total Visitors</div>
+                                <div class="text-2xl font-bold">${Analytics.getTotalVisitors()}</div>
+                            </div>
+                        </div>
+                        <div class="text-sm text-secondary">Unique visitors tracked</div>
+                    </div>
                 </div>
                 
                 <div class="section">

@@ -2,6 +2,7 @@ const App = {
     init() {
         console.log('🚀 Learn AI - Initializing...');
         
+        Analytics.init();
         XP.init();
         Streak.init();
         Achievements.init();
